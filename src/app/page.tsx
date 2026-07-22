@@ -1,9 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
-// WebGL can't render on the server — load the scene client-side only.
+// WebGL can't render on the server — load the scenes client-side only.
 const Scene = dynamic(
   () => import("@/components/three/scene").then((m) => m.Scene),
   {
@@ -13,7 +14,20 @@ const Scene = dynamic(
         Loading experience…
       </div>
     ),
-  }
+  },
+);
+
+const CardsCarousel = dynamic(
+  () =>
+    import("@/components/three/cards-carousel").then((m) => m.CardsCarousel),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+        Loading gallery…
+      </div>
+    ),
+  },
 );
 
 export default function Home() {
@@ -42,20 +56,28 @@ export default function Home() {
             <p className="max-w-md text-pretty text-lg text-muted-foreground">
               A premium studio experience with immersive home visualization.
             </p>
-            <div className="pointer-events-auto flex items-center gap-3 pt-2">
-              <Button size="lg">View Projects</Button>
-              <Button size="lg" variant="outline" className="bg-background/40 backdrop-blur-sm">
-                Book Consultation
-              </Button>
+
+            <div className="pointer-events-auto flex flex-wrap items-center gap-x-5 gap-y-3 pt-2">
+              {/* Primary: walnut pill with a terracotta fill that sweeps up on hover */}
+              <Link
+                href="#projects"
+                className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full bg-primary px-7 py-3.5 text-sm font-medium text-primary-foreground shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+              >
+                <span className="absolute inset-0 translate-y-full bg-accent transition-transform duration-400 ease-out group-hover:translate-y-0" />
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-accent-foreground">
+                  Explore the Portfolio
+                </span>
+                <ArrowRight className="relative z-10 size-4 transition-all duration-300 group-hover:translate-x-1 group-hover:text-accent-foreground" />
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="flex min-h-svh items-center justify-center px-6">
-        <p className="text-muted-foreground">
-          Scroll works (Lenis). 3D works (R3F + drei). Ready to build.
-        </p>
+      <section className="relative h-svh">
+        <div className="absolute inset-0">
+          <CardsCarousel />
+        </div>
       </section>
     </main>
   );
