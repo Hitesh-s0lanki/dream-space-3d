@@ -19,26 +19,35 @@ const Scene = dynamic(
 export default function Home() {
   return (
     <main className="flex flex-1 flex-col">
-      <section className="relative flex min-h-svh flex-col items-center justify-center gap-8 px-6 text-center">
+      <section className="relative min-h-svh overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Scene />
         </div>
 
-        <div className="max-w-2xl space-y-4 rounded-2xl bg-background/60 p-8 backdrop-blur-sm">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-            Interior Design Studio
-          </p>
-          <h1 className="text-balance text-4xl font-medium tracking-tight sm:text-6xl">
-            See the space. Explore the possibilities.
-          </h1>
-          <p className="text-pretty text-muted-foreground">
-            A premium studio experience with immersive home visualization.
-          </p>
-          <div className="flex items-center justify-center gap-3 pt-2">
-            <Button size="lg">View Projects</Button>
-            <Button size="lg" variant="outline">
-              Book Consultation
-            </Button>
+        {/* Editorial scrims: cream from the left for text legibility, a soft
+            fade at the bottom, keeping the room visible on the right. */}
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-r from-background via-background/70 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-linear-to-t from-background/80 via-transparent to-transparent" />
+
+        <div className="pointer-events-none mx-auto flex min-h-svh max-w-6xl items-center px-6 sm:px-10">
+          <div className="max-w-xl space-y-6">
+            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+              Interior Design Studio
+            </p>
+            <h1 className="text-balance text-5xl font-medium leading-[1.05] tracking-tight sm:text-7xl">
+              See the space.
+              <br />
+              Explore the possibilities.
+            </h1>
+            <p className="max-w-md text-pretty text-lg text-muted-foreground">
+              A premium studio experience with immersive home visualization.
+            </p>
+            <div className="pointer-events-auto flex items-center gap-3 pt-2">
+              <Button size="lg">View Projects</Button>
+              <Button size="lg" variant="outline" className="bg-background/40 backdrop-blur-sm">
+                Book Consultation
+              </Button>
+            </div>
           </div>
         </div>
       </section>
