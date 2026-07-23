@@ -4,6 +4,15 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { SiteHeader } from "./_components/site-header";
+import { SiteFooter } from "./_components/site-footer";
+import { StatsBand } from "./_components/sections/stats-band";
+import { ServicesSection } from "./_components/sections/services-section";
+import { ProcessSection } from "./_components/sections/process-section";
+import { GallerySection } from "./_components/sections/gallery-section";
+import { FaqSection } from "./_components/sections/faq-section";
+import { CtaSection } from "./_components/sections/cta-section";
+
 // WebGL can't render on the server — load the scenes client-side only.
 const Scene = dynamic(
   () => import("@/components/three/scene").then((m) => m.Scene),
@@ -17,26 +26,29 @@ const Scene = dynamic(
   },
 );
 
-const CardsCarousel = dynamic(
-  () =>
-    import("@/components/three/cards-carousel").then((m) => m.CardsCarousel),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
-        Loading gallery…
-      </div>
-    ),
-  },
-);
+// const CardsCarousel = dynamic(
+//   () =>
+//     import("@/components/three/cards-carousel").then((m) => m.CardsCarousel),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+//         Loading gallery…
+//       </div>
+//     ),
+//   },
+// );
 
 export default function Home() {
   return (
+    <>
     <main className="flex flex-1 flex-col">
       <section className="relative min-h-svh overflow-hidden">
         <div className="absolute inset-0 -z-10">
           <Scene />
         </div>
+
+        <SiteHeader />
 
         {/* Editorial scrims: cream from the left for text legibility, a soft
             fade at the bottom, keeping the room visible on the right. */}
@@ -48,7 +60,7 @@ export default function Home() {
             <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
               Interior Design Studio
             </p>
-            <h1 className="text-balance text-5xl font-medium leading-[1.05] tracking-tight sm:text-7xl">
+            <h1 className="text-balance text-[2.5rem] font-medium leading-[1.08] tracking-tight sm:text-6xl md:text-7xl">
               See the space.
               <br />
               Explore the possibilities.
@@ -74,11 +86,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative h-svh">
+      {/* Marketing story — trust, philosophy, services, work, process, FAQ, CTA */}
+      <StatsBand />
+      <ServicesSection />
+      <ProcessSection />
+      <GallerySection />
+      <FaqSection />
+      <CtaSection />
+
+      {/* <section className="relative h-svh">
         <div className="absolute inset-0">
           <CardsCarousel />
         </div>
-      </section>
+      </section> */}
     </main>
+
+    <SiteFooter />
+    </>
   );
 }

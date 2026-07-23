@@ -1,11 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Body & UI — a crisp, neutral humanist sans.
+const inter = Inter({
+  variable: "--font-sans",
   subsets: ["latin"],
+});
+
+// Headings — a warm, editorial old-style serif with optical sizing.
+const fraunces = Fraunces({
+  variable: "--font-heading",
+  subsets: ["latin"],
+  axes: ["opsz", "SOFT", "WONK"],
 });
 
 const geistMono = Geist_Mono({
@@ -14,9 +22,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Interior Design Studio — Home Visualization",
+  title: "Ruumiva — Interior Design + Immersive 3D",
   description:
-    "See the space. Explore the possibilities. Design your version.",
+    "Ruumiva brings spaces to life before they are built. See the space. Explore the possibilities. Design your version.",
 };
 
 export default function RootLayout({
@@ -27,7 +35,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <SmoothScroll>{children}</SmoothScroll>
