@@ -1,0 +1,34 @@
+[
+  {
+    "slug": "the-quiet-kitchen",
+    "designerSlug": "nikhil",
+    "title": "The Quiet Kitchen",
+    "summary": "A warm-modern kitchen for a Bandra apartment — walnut, stone, and morning light, planned around the way a family actually cooks.",
+    "year": 2025,
+    "location": "Bandra West, Mumbai",
+    "spaceType": "Kitchen",
+    "style": "Warm Modern",
+    "cover": "/gallery/kitchen-1.jpg",
+    "images": [
+      "/gallery/kitchen-2.jpg",
+      "/gallery/kitchen-3.jpg",
+      "/gallery/kitchen-4.jpg",
+      "/gallery/kitchen-5.jpg",
+      "/gallery/kitchen-6.jpg",
+      "/gallery/kitchen-7.jpg",
+      "/gallery/kitchen-8.jpg",
+      "/gallery/kitchen-9.jpg",
+      "/gallery/kitchen-10.jpg"
+    ],
+    "modelUrl": "/kitchen-transformed.glb",
+    "materials": [
+      { "name": "Warm White", "swatch": "#F4EFE6", "note": "Walls & ceiling — a soft, light-holding base." },
+      { "name": "Stone", "swatch": "#D9D2C5", "note": "Countertops and backsplash." },
+      { "name": "Taupe", "swatch": "#B8A793", "note": "Soft furnishings and lower cabinetry." },
+      { "name": "Walnut", "swatch": "#6B4E37", "note": "Custom joinery and open shelving." },
+      { "name": "Charcoal", "swatch": "#33302B", "note": "Fixtures, handles, and accents." }
+    ],
+    "brief": "A young family in a compact Bandra apartment wanted a kitchen that could carry both a weekday morning rush and slow weekend cooking — without feeling tight. The existing layout boxed the cook away from the room; the brief was to open it up while keeping storage generous and the material palette calm.",
+    "notes": "We planned the kitchen around a single unbroken counter run so two people can work without crossing paths, and lifted the upper storage to open shelving in walnut to keep the eye moving.\n\nStone surfaces and warm-white walls hold the morning light that pours in from the east, while charcoal fixtures give the room its quiet structure. Everything the family reaches for daily sits within one step of the hob — the rest disappears into full-height joinery.\n\nThe result is a kitchen that feels larger than its footprint, and unmistakably theirs."
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "slug": "nikhil",
+    "name": "Nikhil Solanki",
+    "studioName": "Studio Nikhil",
+    "tagline": "Homes that feel like a natural extension of the people who live in them.",
+    "philosophy": "We want people to feel like they truly belong in the spaces they inhabit. Just as the people around us shape our mood, so does the environment we live in.",
+    "bio": "We believe the spaces we live in shape the way we feel, move, and experience everyday life. That's why we see interior design as more than creating beautiful spaces — it's about designing environments that feel natural, functional, and deeply personal.\n\nOur approach grew through observation during a home renovation, where we discovered how proportion, material, alignment and execution transform the experience of a space. Today, we bring together light, materials, planning and detailing to create homes connected to the people who live in them.\n\nGood design isn't about telling people how they should live. It's about understanding how they already do — and shaping a home that supports it beautifully.",
+    "cover": "/gallery/kitchen-1.jpg",
+    "city": "Mumbai",
+    "yearsActive": 6,
+    "styles": ["Warm Modern", "Minimal", "Material-led"],
+    "services": [
+      "Residential Interiors",
+      "Commercial Interiors",
+      "Turnkey Renovations",
+      "Space Planning",
+      "Design Consultation",
+      "Site Coordination",
+      "3D Visualization",
+      "Custom Furniture",
+      "Furniture & Material Selection"
+    ],
+    "approach": [
+      {
+        "title": "Understand People",
+        "description": "Every project begins long before the first drawing — with how you already live."
+      },
+      {
+        "title": "Understand the Space",
+        "description": "Proportion, light, and flow: we read the room before we touch it."
+      },
+      {
+        "title": "Shape the Experience",
+        "description": "Planning and detailing that make a space feel effortless to move through."
+      },
+      {
+        "title": "Refine the Details",
+        "description": "Materials, alignment, and execution — where a home becomes personal."
+      },
+      {
+        "title": "Bring It to Life",
+        "description": "Site coordination and turnkey delivery, built exactly as visualised."
+      }
+    ],
+    "contact": {
+      "email": "nikhilsolanki989@gmail.com",
+      "phone": "+91 98675 24330",
+      "hours": "Mon–Sat · 10 AM–5 PM"
+    },
+    "stats": [
+      { "label": "Years designing", "value": "6+" },
+      { "label": "Projects delivered", "value": "40+" },
+      { "label": "Based in", "value": "Mumbai" }
+    ],
+    "featured": ["the-quiet-kitchen"]
+  }
+]
