@@ -40,6 +40,7 @@ type NavLink = { label: string; href: string; children?: NavChild[] };
 
 const NAV_LINKS: NavLink[] = [
   { label: "Projects", href: "/projects" },
+  { label: "Designers", href: "/designers" },
   {
     label: "Explore Spaces",
     href: "/explore",
@@ -107,11 +108,6 @@ const NAV_LINKS: NavLink[] = [
         description: "How a space goes from brief to finished build.",
       },
       {
-        label: "Meet the Designers",
-        href: "/designers",
-        description: "The people who bring each project to life.",
-      },
-      {
         label: "Journal & Insights",
         href: "/journal",
         description: "Guides, materials, and planning advice.",
@@ -123,7 +119,7 @@ const NAV_LINKS: NavLink[] = [
 export function SiteHeader() {
   return (
     <header className="fixed inset-x-0 top-0 z-30 px-4 pt-4 sm:px-6 sm:pt-5">
-      <div className="mx-auto flex w-full max-w-3xl items-center justify-between gap-6 rounded-full border border-border/60 bg-beige/80 px-6 py-2.5 shadow-lg shadow-charcoal/5 backdrop-blur-md sm:px-8 sm:py-2.5">
+      <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-10 rounded-full border border-border/60 bg-beige/80 px-6 py-2.5 shadow-lg shadow-charcoal/5 backdrop-blur-md sm:px-8 sm:py-2.5 lg:gap-16">
         {/* Home — logo mark + wordmark */}
         <Link
           href="/"
@@ -139,11 +135,11 @@ export function SiteHeader() {
             className="h-7 w-auto transition-transform duration-300 group-hover:-translate-y-0.5"
           />
           <span className="hidden flex-col leading-none sm:flex">
-            <span className="text-sm font-medium tracking-[0.32em] text-foreground">
+            <span className="text-sm font-medium tracking-[0.05em] text-foreground">
               Ruumiva
             </span>
-            <span className="mt-0.5 text-[0.55rem] uppercase tracking-[0.26em] text-muted-foreground">
-              Interior Design
+            <span className="mt-0.5 text-[0.65rem]  tracking-[0.02em] text-muted-foreground">
+              Interior Design Studio
             </span>
           </span>
         </Link>

@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-import { SiteHeader } from "./_components/site-header";
-import { SiteFooter } from "./_components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { StatsBand } from "./_components/sections/stats-band";
 import { ServicesSection } from "./_components/sections/services-section";
 import { ProcessSection } from "./_components/sections/process-section";
