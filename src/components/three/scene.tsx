@@ -22,9 +22,13 @@ import {
   useState,
   type ReactNode,
   useEffect,
+  useRef,
 } from "react";
 
 const MODEL_URL = "/kitchen-transformed.glb";
+// Self-hosted so the scene doesn't block on an external CDN (raw.githack.com)
+// fetch of the ~1.5MB "city" HDR on every load. Served + cached locally.
+const ENV_URL = "/hdri/potsdamer_platz_1k.hdr";
 
 /**
  * Kitchen interior from the pmndrs "shopping" example, adapted as an ambient
@@ -39,7 +43,7 @@ type GLTFResult = {
 function Kitchen(props: React.ComponentProps<"group">) {
   const { nodes, materials } = useGLTF(MODEL_URL) as unknown as GLTFResult;
   // Environment map used only on the reflective pieces (chairs, sink, glass).
-  const env = useEnvironment({ preset: "city" });
+  const env = useEnvironment({ files: ENV_URL });
   const [hovered, setHovered] = useState<string | null>(null);
   const over = useCallback(
     (name: string) => (e: { stopPropagation: () => void }) => {
@@ -89,6 +93,7 @@ function Kitchen(props: React.ComponentProps<"group">) {
 }
 
 useGLTF.preload(MODEL_URL);
+useEnvironment.preload({ files: ENV_URL });
 
 /**
  * Post-processing stack + pointer-parallax camera. Lives in its own component
@@ -105,10 +110,10 @@ function Effects() {
     camera.lookAt(camera.position.x * 0.9, 0, -4);
   });
   return (
-    <EffectComposer stencilBuffer autoClear={false} multisampling={4}>
-      <N8AO aoSamples={16} denoiseSamples={4} aoRadius={0.6} distanceFalloff={1} intensity={1.8} />
-      <Outline visibleEdgeColor={0xffffff} hiddenEdgeColor={0xffffff} blur width={size.width * 1.25} edgeStrength={10} />
-      <TiltShift2 samples={5} blur={0.06} />
+    <EffectComposer stencilBuffer autoClear={false} multisampling={0}>
+      <N8AO aoSamples={6} denoiseSamples={2} aoRadius={0.6} distanceFalloff={1} intensity={1.8} />
+      <Outline visibleEdgeColor={0xffffff} hiddenEdgeColor={0xffffff} blur width={Math.min(size.width, 1024)} edgeStrength={10} />
+      <TiltShift2 samples={4} blur={0.06} />
       <ToneMapping />
       <BrightnessContrast brightness={-0.03} contrast={0.08} />
       <HueSaturation saturation={0.06} />
@@ -160,15 +165,33 @@ export function Scene() {
   const [supported, setSupported] = useState<boolean | null>(null);
   useEffect(() => setSupported(hasWebGL()), []);
 
+  // Pause the render loop while the hero is off-screen — the full
+  // post-processing stack is expensive and there's no reason to run it at
+  // 60fps while the reader is further down the page.
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const [active, setActive] = useState(true);
+  useEffect(() => {
+    const node = wrapRef.current;
+    if (!node) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setActive(entry.isIntersecting),
+      { rootMargin: "100px" },
+    );
+    io.observe(node);
+    return () => io.disconnect();
+  }, [supported]);
+
   if (supported === null) return null;
   if (!supported) return <Fallback />;
 
   return (
     <WebGLErrorBoundary>
+      <div ref={wrapRef} className="h-full w-full">
       <Canvas
         flat
         dpr={[1, 1.5]}
-        gl={{ antialias: false }}
+        frameloop={active ? "always" : "never"}
+        gl={{ antialias: false, powerPreference: "high-performance" }}
         camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}
         className="h-full w-full"
       >
@@ -184,6 +207,7 @@ export function Scene() {
           </Selection>
         </Bvh>
       </Canvas>
+      </div>
     </WebGLErrorBoundary>
   );
 }
