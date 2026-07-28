@@ -38,8 +38,8 @@ const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
     {
       heading: "Studio",
       links: [
-        { label: "Our Story", href: "/about" },
-        { label: "Design Process", href: "/process" },
+        { label: "Our Story", href: "/about#story" },
+        { label: "Design Process", href: "/about#process" },
         { label: "Meet the Designers", href: "/designers" },
         { label: "Careers", href: "/careers" },
       ],

@@ -21,6 +21,15 @@ export type BeforeAfter = {
   after: string;
 };
 
+export type VideoClip = {
+  /** mp4/webm in /public, or a URL. */
+  src: string;
+  /** Poster frame shown before playback — falls back to the project cover. */
+  poster?: string;
+  /** Short caption, e.g. "Walkthrough — entry to hob". */
+  label?: string;
+};
+
 export type Designer = {
   slug: string;
   name: string;
@@ -65,8 +74,8 @@ export type Project = {
   style: string;
   cover: string;
   images: string[];
-  /** Optional walkthrough video (mp4/webm in /public or a URL). */
-  video?: string;
+  /** Optional walkthrough videos — rendered as a player section on the case study. */
+  videos?: VideoClip[];
   /** Optional GLB — when present the case study renders an immersive 3D viewer. */
   modelUrl?: string;
   beforeAfter?: BeforeAfter;

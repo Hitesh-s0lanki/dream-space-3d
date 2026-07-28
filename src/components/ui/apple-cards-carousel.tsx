@@ -8,7 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import { ArrowLeft, ArrowRight, X } from "lucide-react";
+import Link from "next/link";
+import { ArrowLeft, ArrowRight, ArrowUpRight, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
@@ -16,16 +17,21 @@ import { useOutsideClick } from "@/hooks/use-outside-click";
 
 /**
  * Apple-style cards carousel (adapted from ui.aceternity.com). A horizontally
- * scrolling rail of tall image cards; tapping a card expands it into a full
- * overlay with its detail content. Restyled to the studio's walnut/ivory tokens
- * and wired to lucide + motion (the packages already in this project).
+ * scrolling rail of tall image cards. Restyled to the studio's walnut/ivory
+ * tokens and wired to lucide + motion (the packages already in this project).
+ *
+ * A card behaves one of two ways: give it an `href` and it navigates, or give
+ * it `content` and it expands into a full overlay in place. `href` wins.
  */
 
 export type CarouselCard = {
   src: string;
   title: string;
   category: string;
-  content: React.ReactNode;
+  /** Detail shown in the expanding overlay. Ignored when `href` is set. */
+  content?: React.ReactNode;
+  /** Navigate on click instead of expanding — for cards that have a real page. */
+  href?: string;
 };
 
 type CarouselContextValue = {
@@ -158,6 +164,8 @@ export function Card({
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { onCardClose } = useContext(CarouselContext);
+  /** Linked cards never expand, so they skip the shared layout ids entirely. */
+  const sharedLayout = layout && !card.href;
 
   const handleClose = React.useCallback(() => {
     setOpen(false);
@@ -177,6 +185,50 @@ export function Card({
   useOutsideClick(containerRef, () => {
     if (open) handleClose();
   });
+
+  const face = (
+    <>
+      <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-2/3 bg-linear-to-b from-charcoal/60 to-transparent" />
+      <div className="relative z-40 p-6">
+        <motion.p
+          layoutId={sharedLayout ? `category-${card.category}` : undefined}
+          className="text-left text-[0.7rem] font-medium uppercase tracking-[0.25em] text-ivory/90"
+        >
+          {card.category}
+        </motion.p>
+        <motion.p
+          layoutId={sharedLayout ? `title-${card.title}` : undefined}
+          className="mt-2 max-w-xs text-balance text-left text-lg font-medium tracking-tight text-ivory md:text-2xl"
+        >
+          {card.title}
+        </motion.p>
+      </div>
+      <BlurImage
+        src={card.src}
+        alt={card.title}
+        className="absolute inset-0 z-10 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+      />
+    </>
+  );
+
+  const faceClassName =
+    "group relative z-10 flex h-72 w-60 flex-col items-start justify-start overflow-hidden rounded-3xl bg-secondary md:h-112 md:w-80";
+
+  // Cards with a destination are plain links — no overlay, no scroll lock. The
+  // whole card is the hit area; the pill is the affordance, revealed on hover
+  // and always shown on touch, where there is no hover to reveal it with.
+  if (card.href) {
+    return (
+      <Link href={card.href} className={faceClassName}>
+        {face}
+        <span className="pointer-events-none absolute inset-0 z-30 bg-charcoal/25 opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100" />
+        <span className="absolute bottom-6 left-6 z-40 inline-flex items-center gap-2 rounded-full bg-ivory px-5 py-2.5 text-sm font-medium text-charcoal transition-all duration-300 ease-out md:translate-y-2 md:opacity-0 md:group-focus-visible:translate-y-0 md:group-focus-visible:opacity-100 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+          Explore
+          <ArrowUpRight className="size-4" />
+        </span>
+      </Link>
+    );
+  }
 
   return (
     <>
@@ -225,30 +277,11 @@ export function Card({
 
       <motion.button
         type="button"
-        layoutId={layout ? `card-${card.title}` : undefined}
+        layoutId={sharedLayout ? `card-${card.title}` : undefined}
         onClick={() => setOpen(true)}
-        className="relative z-10 flex h-72 w-60 flex-col items-start justify-start overflow-hidden rounded-3xl bg-secondary md:h-112 md:w-80"
+        className={faceClassName}
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-2/3 bg-linear-to-b from-charcoal/60 to-transparent" />
-        <div className="relative z-40 p-6">
-          <motion.p
-            layoutId={layout ? `category-${card.category}` : undefined}
-            className="text-left text-[0.7rem] font-medium uppercase tracking-[0.25em] text-ivory/90"
-          >
-            {card.category}
-          </motion.p>
-          <motion.p
-            layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-2 max-w-xs text-balance text-left text-lg font-medium tracking-tight text-ivory md:text-2xl"
-          >
-            {card.title}
-          </motion.p>
-        </div>
-        <BlurImage
-          src={card.src}
-          alt={card.title}
-          className="absolute inset-0 z-10 object-cover"
-        />
+        {face}
       </motion.button>
     </>
   );

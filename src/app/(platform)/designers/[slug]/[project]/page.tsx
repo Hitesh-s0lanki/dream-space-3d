@@ -7,6 +7,7 @@ import { getDesigner, getProject, getProjects } from "@/data";
 import { Reveal } from "@/components/reveal";
 import { ModelViewer } from "@/components/three/model-viewer";
 import { MediaGallery } from "../../../_components/media-gallery";
+import { WalkthroughPlayer } from "../../../_components/walkthrough-player";
 
 type Params = { slug: string; project: string };
 
@@ -97,6 +98,23 @@ export default async function ProjectCaseStudyPage({
         </section>
       )}
 
+      {/* Walkthrough — the rendered video tour, where one exists */}
+      {project.videos && project.videos.length > 0 && (
+        <section className="mx-auto max-w-6xl px-6 sm:px-10">
+          <Reveal className="mb-8 space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-accent">
+              The walkthrough
+            </p>
+            <h2 className="max-w-xl text-balance font-heading text-3xl leading-[1.08] tracking-tight sm:text-4xl">
+              Walk the space before it was built.
+            </h2>
+          </Reveal>
+          <Reveal delay={100}>
+            <WalkthroughPlayer clips={project.videos} poster={project.cover} />
+          </Reveal>
+        </section>
+      )}
+
       {/* Brief */}
       <section className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:py-28">
         <div className="grid gap-6 lg:grid-cols-[0.5fr_1.5fr] lg:gap-20">
@@ -138,11 +156,7 @@ export default async function ProjectCaseStudyPage({
               Every render, up close.
             </h2>
           </Reveal>
-          <MediaGallery
-            images={project.images}
-            video={project.video}
-            poster={project.cover}
-          />
+          <MediaGallery images={project.images} poster={project.cover} />
         </div>
       </section>
 
