@@ -9,7 +9,11 @@
     "cover": "/gallery/kitchen-1.jpg",
     "city": "Mumbai",
     "yearsActive": 6,
-    "styles": ["Warm Modern", "Minimal", "Material-led"],
+    "styles": [
+      "Warm Modern",
+      "Minimal",
+      "Material-led"
+    ],
     "services": [
       "Residential Interiors",
       "Commercial Interiors",
@@ -49,10 +53,95 @@
       "hours": "Mon–Sat · 10 AM–5 PM"
     },
     "stats": [
-      { "label": "Years designing", "value": "6+" },
-      { "label": "Projects delivered", "value": "40+" },
-      { "label": "Based in", "value": "Mumbai" }
+      {
+        "label": "Years designing",
+        "value": "6+"
+      },
+      {
+        "label": "Projects delivered",
+        "value": "40+"
+      },
+      {
+        "label": "Based in",
+        "value": "Mumbai"
+      }
     ],
-    "featured": ["the-quiet-kitchen"]
+    "featured": [
+      "the-quiet-kitchen"
+    ]
+  },
+  {
+    "slug": "ensio",
+    "name": "Ensio.Co Design Studio",
+    "studioName": "Ensio.Co",
+    "tagline": "The bridge between concept and reality.",
+    "philosophy": "Ensio.Co takes its name from the ensō — the single brushstroke circle that finds beauty in what is left imperfect. We design spaces the same way: complete enough to feel resolved, open enough to feel lived in.",
+    "bio": "Ensio.Co is a Mumbai studio of 3D visualisation specialists working at the point where interior design becomes something you can actually see. We build photoreal renders of spaces before a single wall is moved — architectural visualisation, interior sets, product studies and virtual walkthroughs.\n\nOur work is a seamless blend of visual appeal and storytelling. A render is only useful if it answers the questions a drawing can't: how the evening light lands on a marble wall, how a fluted walnut panel reads against brass, whether a nursery feels calm at eye level rather than in plan.\n\nWe pair traditional rendering craft — lighting, textures, spatial composition — with the newest tools available, so that what our clients approve on screen is what they walk into on site.",
+    "avatar": "/ensio/brand/ensio-ring.png",
+    "cover": "/ensio/ichi/ichi-01.jpg",
+    "city": "Mumbai",
+    "yearsActive": 2,
+    "styles": [
+      "Contemporary",
+      "Neo-Classical",
+      "Warm Neutral"
+    ],
+    "services": [
+      "3D Visualisation",
+      "Interior Design Visualisation",
+      "Architectural Visualisation",
+      "Product Visualisation",
+      "Virtual Tours",
+      "Lighting & Material Studies",
+      "Photorealistic Rendering"
+    ],
+    "approach": [
+      {
+        "title": "Read the Brief",
+        "description": "Drawings, references and intent — we start by understanding what the space is meant to feel like."
+      },
+      {
+        "title": "Build the Space",
+        "description": "Accurate 3D geometry from the plan, so proportion and sightlines are honest before anything is styled."
+      },
+      {
+        "title": "Light It",
+        "description": "Daylight studies and layered artificial light — the part that decides whether a render reads as real."
+      },
+      {
+        "title": "Dress the Materials",
+        "description": "Stone, veneer, metal and fabric mapped at true scale, tested against each other before they are specified."
+      },
+      {
+        "title": "Tell the Story",
+        "description": "Camera, composition and final grade — delivered as stills or a walkthrough you can move through."
+      }
+    ],
+    "contact": {
+      "email": "contact@ensio.co.in",
+      "phone": "+91 84520 50681",
+      "instagram": "https://www.instagram.com/ensio.co",
+      "linkedin": "https://www.linkedin.com/company/ensio-co/"
+    },
+    "stats": [
+      {
+        "label": "Projects published",
+        "value": "4"
+      },
+      {
+        "label": "Renders delivered",
+        "value": "23"
+      },
+      {
+        "label": "Based in",
+        "value": "Mumbai"
+      }
+    ],
+    "featured": [
+      "yon",
+      "san",
+      "ni",
+      "ichi"
+    ]
   }
 ]
