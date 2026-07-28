@@ -84,11 +84,11 @@ export function SiteFooter() {
             <Link
               href="/"
               className="flex items-center gap-2.5"
-              aria-label="Ruumiva — home"
+              aria-label="Rumiva — home"
             >
               <Image
                 src="/logo/studio_s_mark_transparent_dark_background_version.png"
-                alt="Ruumiva"
+                alt="Rumiva"
                 width={44}
                 height={48}
                 className="h-8 w-auto"
@@ -171,11 +171,11 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="mailto:hello@ruumiva.com"
+                  href="mailto:hello@rumiva.in"
                   className="flex items-center gap-2.5 transition-colors hover:text-ivory"
                 >
                   <Mail className="size-4 shrink-0 text-ivory/40" />
-                  hello@ruumiva.com
+                  hello@rumiva.in
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
@@ -193,7 +193,7 @@ export function SiteFooter() {
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 sm:flex-row">
           <p className="text-xs text-ivory/50">
-            © {2026} Ruumiva Design Studio. All rights reserved.
+            © {2026} Rumiva Design Studio. All rights reserved.
           </p>
 
           <div className="flex items-center gap-4">

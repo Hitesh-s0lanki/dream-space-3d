@@ -21,10 +21,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://rumiva.in";
+const SITE_TITLE = "Rumiva — Interior Design + Immersive 3D";
+const SITE_DESCRIPTION =
+  "Rumiva brings spaces to life before they are built. See the space. Explore the possibilities. Design your version.";
+
 export const metadata: Metadata = {
-  title: "Ruumiva — Interior Design + Immersive 3D",
-  description:
-    "Ruumiva brings spaces to life before they are built. See the space. Explore the possibilities. Design your version.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    url: "/",
+    siteName: "Rumiva",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

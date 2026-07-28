@@ -8,9 +8,9 @@ import { Reveal } from "@/components/reveal";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata: Metadata = {
-  title: "Meet the Designers — Ruumiva",
+  title: "Meet the Designers — Rumiva",
   description:
-    "Browse the interior designers on Ruumiva and explore their portfolios in immersive 3D.",
+    "Browse the interior designers on Rumiva and explore their portfolios in immersive 3D.",
 };
 
 export default function DesignersPage() {

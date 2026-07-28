@@ -29,7 +29,7 @@ export async function generateMetadata({
   const designer = getDesigner(slug);
   if (!designer) return {};
   return {
-    title: `${designer.studioName} — ${designer.name} · Ruumiva`,
+    title: `${designer.studioName} — ${designer.name} · Rumiva`,
     description: designer.tagline,
   };
 }
@@ -64,12 +64,6 @@ export default async function DesignerPortfolioPage({
 
         <div className="relative mx-auto flex min-h-[85svh] max-w-6xl items-end px-6 pb-16 pt-40 sm:px-10">
           <div className="max-w-2xl space-y-6">
-            <Link
-              href="/designers"
-              className="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.3em] text-muted-foreground transition-colors hover:text-foreground"
-            >
-              ← All designers
-            </Link>
             <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <MapPin className="size-4" />
               {designer.city}

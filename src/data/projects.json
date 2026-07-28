@@ -22,13 +22,225 @@
     ],
     "modelUrl": "/kitchen-transformed.glb",
     "materials": [
-      { "name": "Warm White", "swatch": "#F4EFE6", "note": "Walls & ceiling — a soft, light-holding base." },
-      { "name": "Stone", "swatch": "#D9D2C5", "note": "Countertops and backsplash." },
-      { "name": "Taupe", "swatch": "#B8A793", "note": "Soft furnishings and lower cabinetry." },
-      { "name": "Walnut", "swatch": "#6B4E37", "note": "Custom joinery and open shelving." },
-      { "name": "Charcoal", "swatch": "#33302B", "note": "Fixtures, handles, and accents." }
+      {
+        "name": "Warm White",
+        "swatch": "#F4EFE6",
+        "note": "Walls & ceiling — a soft, light-holding base."
+      },
+      {
+        "name": "Stone",
+        "swatch": "#D9D2C5",
+        "note": "Countertops and backsplash."
+      },
+      {
+        "name": "Taupe",
+        "swatch": "#B8A793",
+        "note": "Soft furnishings and lower cabinetry."
+      },
+      {
+        "name": "Walnut",
+        "swatch": "#6B4E37",
+        "note": "Custom joinery and open shelving."
+      },
+      {
+        "name": "Charcoal",
+        "swatch": "#33302B",
+        "note": "Fixtures, handles, and accents."
+      }
     ],
     "brief": "A young family in a compact Bandra apartment wanted a kitchen that could carry both a weekday morning rush and slow weekend cooking — without feeling tight. The existing layout boxed the cook away from the room; the brief was to open it up while keeping storage generous and the material palette calm.",
     "notes": "We planned the kitchen around a single unbroken counter run so two people can work without crossing paths, and lifted the upper storage to open shelving in walnut to keep the eye moving.\n\nStone surfaces and warm-white walls hold the morning light that pours in from the east, while charcoal fixtures give the room its quiet structure. Everything the family reaches for daily sits within one step of the hob — the rest disappears into full-height joinery.\n\nThe result is a kitchen that feels larger than its footprint, and unmistakably theirs."
+  },
+  {
+    "slug": "yon",
+    "designerSlug": "ensio",
+    "title": "Yon",
+    "summary": "A calming residence at Breach Candy, Mumbai — grey marble, fluted walnut and a cove-lit ceiling holding one continuous living and dining floor.",
+    "year": 2025,
+    "location": "Breach Candy, Mumbai",
+    "spaceType": "Apartment",
+    "style": "Contemporary",
+    "cover": "/ensio/yon/yon-06.jpg",
+    "images": [
+      "/ensio/yon/yon-01.jpg",
+      "/ensio/yon/yon-02.jpg",
+      "/ensio/yon/yon-03.jpg",
+      "/ensio/yon/yon-04.jpg",
+      "/ensio/yon/yon-05.jpg"
+    ],
+    "materials": [
+      {
+        "name": "Grey Marble",
+        "swatch": "#7C7873",
+        "note": "Full-height media wall and the plinth it sits on."
+      },
+      {
+        "name": "Fluted Walnut",
+        "swatch": "#6E4B32",
+        "note": "Low console, tall storage and the dining backdrop."
+      },
+      {
+        "name": "Antique Brass",
+        "swatch": "#A98352",
+        "note": "Shelf edges, handles and the picture light."
+      },
+      {
+        "name": "Pale Oak Plank",
+        "swatch": "#D9C6AC",
+        "note": "Floor throughout the living and dining run."
+      },
+      {
+        "name": "Warm Plaster",
+        "swatch": "#E8DFD2",
+        "note": "Walls, columns and the layered false ceiling."
+      }
+    ],
+    "brief": "A large Breach Candy apartment where living, lounge and dining all share one uninterrupted floor — the brief was to give that volume a centre of gravity without cutting it into rooms.",
+    "notes": "The grey marble media wall is the anchor. Everything else steps back from it: pale oak underfoot, warm plaster on the columns, and a coved ceiling that carries light across the full depth of the plan rather than pooling it in one spot.\n\nWalnut does the quiet work — fluted on the console, ribbed on the dining storage, framed in brass on the open shelving so the eye has something to travel along. Marble reappears at a smaller scale in the nesting coffee tables, which keeps the room reading as one material story.\n\nThe renders were built to test the evening condition first: cove light, shelf light and under-console light all on, daylight down. That is how the family will use the room most, and it is the hardest state to get right on paper."
+  },
+  {
+    "slug": "san",
+    "designerSlug": "ensio",
+    "title": "San",
+    "summary": "A kid's bedroom in soft cream and blush — safari-toile walls, an arched alcove and a bathroom finished in speckled terrazzo.",
+    "year": 2025,
+    "location": "Mumbai, India",
+    "spaceType": "Kid's Bedroom",
+    "style": "Neo-Classical",
+    "cover": "/ensio/san/san-01.jpg",
+    "images": [
+      "/ensio/san/san-02.jpg",
+      "/ensio/san/san-03.jpg",
+      "/ensio/san/san-04.jpg",
+      "/ensio/san/san-05.jpg",
+      "/ensio/san/san-06.jpg",
+      "/ensio/san/san-07.jpg",
+      "/ensio/san/san-08.jpg"
+    ],
+    "materials": [
+      {
+        "name": "Soft Cream",
+        "swatch": "#F3E9DD",
+        "note": "Panelled dado and joinery throughout."
+      },
+      {
+        "name": "Blush Beige",
+        "swatch": "#E6D2C0",
+        "note": "Upholstery, curtains and the safari-toile wallpaper."
+      },
+      {
+        "name": "Ivory Lacquer",
+        "swatch": "#FAF6F0",
+        "note": "Wardrobes, cot and the changing chest."
+      },
+      {
+        "name": "Brushed Brass",
+        "swatch": "#C09A5B",
+        "note": "Knobs, pulls and the vanity light."
+      },
+      {
+        "name": "Terrazzo",
+        "swatch": "#EDE7DC",
+        "note": "Speckled floor in the attached bathroom."
+      },
+      {
+        "name": "Herringbone Oak",
+        "swatch": "#E3D3BC",
+        "note": "Bedroom floor, laid in a fine herringbone."
+      }
+    ],
+    "brief": "A children's room that had to work from cot to first bed — calm enough for a nursery today, not so themed that it dates by the time the room is outgrown.",
+    "notes": "The palette holds everything together: cream panelling to dado height, a safari toile above it drawn in the softest possible beige, and joinery lacquered to disappear into the wall. Nothing shouts, so the toys and books get to be the colour in the room.\n\nAn arched opening frames the sleeping alcove and gives the plan a soft edge. Storage runs floor to ceiling on both flanks — wardrobes, a changing chest, low open shelves at a height a child can actually reach.\n\nThe attached bathroom was rendered as part of the same set: white sanitaryware, wall-mounted taps and a terrazzo floor whose flecks bring in the only real colour in the scheme."
+  },
+  {
+    "slug": "ni",
+    "designerSlug": "ensio",
+    "title": "Ni",
+    "summary": "A living room in sand and gold — panelled walls, a grey marble return and an arched brass screen opening onto the dining.",
+    "year": 2025,
+    "location": "Mumbai, India",
+    "spaceType": "Living Room",
+    "style": "Neo-Classical",
+    "cover": "/ensio/ni/ni-01.jpg",
+    "images": [
+      "/ensio/ni/ni-02.jpg",
+      "/ensio/ni/ni-03.jpg",
+      "/ensio/ni/ni-04.jpg"
+    ],
+    "materials": [
+      {
+        "name": "Sand Beige",
+        "swatch": "#DCCBB4",
+        "note": "Panelled media wall and cornices."
+      },
+      {
+        "name": "Grey Marble",
+        "swatch": "#8C8A87",
+        "note": "Return wall and the dining tabletop."
+      },
+      {
+        "name": "Fluted Walnut",
+        "swatch": "#5A4231",
+        "note": "Console, partition frame and door."
+      },
+      {
+        "name": "Champagne Gold",
+        "swatch": "#C6A664",
+        "note": "Arched screen, wall clock and trims."
+      },
+      {
+        "name": "Ivory Panelling",
+        "swatch": "#F2EDE4",
+        "note": "Ceiling coffers and recessed cove."
+      }
+    ],
+    "brief": "A living room that opens straight onto the dining — the brief was to divide the two without building a wall, and to give the television a setting rather than a blank surface.",
+    "notes": "The media wall is treated as classical panelling in sand beige, stopped against a grey marble return so the screen sits inside a frame instead of floating on plaster. A fluted walnut console runs the width beneath it and takes the whole media load.\n\nThe divide is a screen of gold arches on a walnut frame — open enough to keep both rooms in one view, closed enough that the dining reads as its own place. Mirror inside the arches doubles the light coming off the marble.\n\nCoffered ceilings with recessed cove lighting carry the same rhythm across both zones, which is what finally makes the two rooms feel like one apartment."
+  },
+  {
+    "slug": "ichi",
+    "designerSlug": "ensio",
+    "title": "Ichi",
+    "summary": "A modern living room in chalk and charcoal — classical mouldings, herringbone walnut floors and sculptural furniture in a restrained palette.",
+    "year": 2025,
+    "location": "Mumbai, India",
+    "spaceType": "Living Room",
+    "style": "Contemporary",
+    "cover": "/ensio/ichi/ichi-01.jpg",
+    "images": [
+      "/ensio/ichi/ichi-02.jpg",
+      "/ensio/ichi/ichi-03.jpg",
+      "/ensio/ichi/ichi-04.jpg",
+      "/ensio/ichi/ichi-05.jpg"
+    ],
+    "materials": [
+      {
+        "name": "Chalk White",
+        "swatch": "#F0EEE9",
+        "note": "Panelled walls, cornice and ceiling."
+      },
+      {
+        "name": "Charcoal",
+        "swatch": "#2E2C2A",
+        "note": "Steel window frames, coffee table and art."
+      },
+      {
+        "name": "Espresso Oak",
+        "swatch": "#4A3226",
+        "note": "Herringbone floor and turned table legs."
+      },
+      {
+        "name": "Greige Linen",
+        "swatch": "#C9C4BB",
+        "note": "Sofa, bouclé lounge chair and rug ground."
+      },
+      {
+        "name": "Aged Brass",
+        "swatch": "#B58E52",
+        "note": "Chandelier and wall sconce."
+      }
+    ],
+    "brief": "A contemporary living room set inside a classically detailed shell — stylish furniture and elegant decor in neutral tones, without the room tipping into period pastiche.",
+    "notes": "The shell keeps its mouldings, cornice and coffered ceiling; everything placed inside it is deliberately modern. A low cream sofa, a bouclé barrel chair and a striped mid-century lounger sit on a dotted flat-weave that grounds the whole arrangement.\n\nContrast does the work colour usually would. Espresso herringbone under a chalk-white room, a black circular artwork against a blank panel, charcoal steel glazing framing the kitchen beyond — the palette never leaves neutral, but it never goes flat either.\n\nDetail shots were rendered alongside the wides: the nesting tables, the ceramic vases, the flip clock. In a room this restrained, those are the moments that make the space read as somebody's rather than a showroom's."
   }
 ]

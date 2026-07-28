@@ -23,11 +23,11 @@ export default function NotFound() {
         <Link
           href="/"
           className="flex items-center gap-2.5"
-          aria-label="Ruumiva — home"
+          aria-label="Rumiva — home"
         >
           <Image
             src="/logo/studio_s_mark_transparent_walnut.png"
-            alt="Ruumiva"
+            alt="Rumiva"
             width={44}
             height={48}
             priority
