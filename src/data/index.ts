@@ -44,4 +44,10 @@ export function getFeaturedProjects(designer: Designer): Project[] {
     .filter((p): p is Project => Boolean(p));
 }
 
-export type { Designer, Project } from "./types";
+export type { Designer, Project, VideoClip } from "./types";
+export {
+  getServices,
+  getService,
+  getOtherServices,
+  type Service,
+} from "./services";

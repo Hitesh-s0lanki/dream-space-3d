@@ -27,10 +27,11 @@ import {
 
 /**
  * Primary navigation, per the Information Architecture in the PRD (§8.1):
- *   Home | Projects | Explore Spaces | Services | About | Contact
- * Secondary destinations (Process, Insights, Designers…) are folded into
- * dropdowns to keep the first-level menu compact. "Home" is the logo; the
- * "Book Consultation" CTA maps to Contact / lead generation.
+ *   Home | Explore (the project catalogue) | Designers | Services | About | Contact
+ * Secondary destinations (Process, Insights…) are folded into dropdowns to keep
+ * the first-level menu compact. "Home" is the logo; the "Book Consultation" CTA
+ * maps to Contact / lead generation. Explore Spaces is parked until those routes
+ * exist — the footer still links to them.
  *
  * Brand: RUMIVA — Interior Design + Immersive 3D.
  * "We bring spaces to life before they are built."
@@ -39,34 +40,8 @@ type NavChild = { label: string; href: string; description: string };
 type NavLink = { label: string; href: string; children?: NavChild[] };
 
 const NAV_LINKS: NavLink[] = [
-  { label: "Projects", href: "/projects" },
+  { label: "Explore", href: "/projects" },
   { label: "Designers", href: "/designers" },
-  {
-    label: "Explore Spaces",
-    href: "/explore",
-    children: [
-      {
-        label: "Sample Homes",
-        href: "/explore/homes",
-        description: "Walk through fully designed sample homes.",
-      },
-      {
-        label: "Room Designs",
-        href: "/explore/rooms",
-        description: "Browse individual rooms by style and space type.",
-      },
-      {
-        label: "Interactive 3D Tours",
-        href: "/explore/tours",
-        description: "Immersive, real-time walkthroughs of every space.",
-      },
-      {
-        label: "Floor Plans & Layouts",
-        href: "/explore/layouts",
-        description: "See circulation, storage, and how furniture fits.",
-      },
-    ],
-  },
   {
     label: "Services",
     href: "/services",
@@ -99,17 +74,17 @@ const NAV_LINKS: NavLink[] = [
     children: [
       {
         label: "Our Story",
-        href: "/about",
-        description: "The studio's philosophy, mission, and founder.",
+        href: "/about#story",
+        description: "How the studio started, and the two people behind it.",
       },
       {
         label: "Design Process",
-        href: "/process",
+        href: "/about#process",
         description: "How a space goes from brief to finished build.",
       },
       {
         label: "Journal & Insights",
-        href: "/journal",
+        href: "/about#journal",
         description: "Guides, materials, and planning advice.",
       },
     ],
