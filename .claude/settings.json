@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const z=require\\('zod'\\); console.log\\('version', require\\('zod/package.json'\\).version\\); const s=z.object\\({email:z.email\\(\\)}\\); const r=s.safeParse\\({email:'x'}\\); console.log\\('has flatten:', typeof r.error.flatten\\); console.log\\('flattenError:', typeof z.flattenError\\); console.log\\(JSON.stringify\\(z.flattenError\\(r.error\\).fieldErrors\\)\\);\")"
+    ]
+  }
+}

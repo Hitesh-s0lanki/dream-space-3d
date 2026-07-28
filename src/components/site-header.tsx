@@ -32,7 +32,7 @@ import {
  * dropdowns to keep the first-level menu compact. "Home" is the logo; the
  * "Book Consultation" CTA maps to Contact / lead generation.
  *
- * Brand: RUUMIVA — Interior Design + Immersive 3D.
+ * Brand: RUMIVA — Interior Design + Immersive 3D.
  * "We bring spaces to life before they are built."
  */
 type NavChild = { label: string; href: string; description: string };
@@ -124,11 +124,11 @@ export function SiteHeader() {
         <Link
           href="/"
           className="group flex shrink-0 items-center gap-2.5"
-          aria-label="Ruumiva — home"
+          aria-label="Rumiva — home"
         >
           <Image
             src="/logo/studio_s_mark_transparent_walnut.png"
-            alt="Ruumiva"
+            alt="Rumiva"
             width={44}
             height={48}
             priority
@@ -136,7 +136,7 @@ export function SiteHeader() {
           />
           <span className="hidden flex-col leading-none sm:flex">
             <span className="text-sm font-medium tracking-[0.05em] text-foreground">
-              Ruumiva
+              Rumiva
             </span>
             <span className="mt-0.5 text-[0.65rem]  tracking-[0.02em] text-muted-foreground">
               Interior Design Studio
@@ -220,7 +220,7 @@ function MobileNav() {
       </SheetTrigger>
       <SheetContent side="right" className="w-80 gap-0">
         <SheetHeader>
-          <SheetTitle className="tracking-[0.3em]">RUUMIVA</SheetTitle>
+          <SheetTitle className="tracking-[0.3em]">RUMIVA</SheetTitle>
         </SheetHeader>
 
         <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 pb-4">
@@ -261,7 +261,7 @@ function MobileNav() {
           ))}
         </nav>
 
-        <div className="border-t border-border/60 p-4">
+        <div className="flex flex-col gap-2 border-t border-border/60 p-4">
           <SheetClose asChild>
             <Link
               href="/contact"

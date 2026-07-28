@@ -26,7 +26,7 @@ export async function generateMetadata({
   const project = getProject(slug, projectSlug);
   if (!project) return {};
   return {
-    title: `${project.title} — Ruumiva`,
+    title: `${project.title} — Rumiva`,
     description: project.summary,
     openGraph: { images: [project.cover] },
   };

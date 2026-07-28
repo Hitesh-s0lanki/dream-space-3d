@@ -42,3 +42,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local file-backed account store (dev)
+.data/
+
+# Raw design-source archive (SketchUp/PSD/DWG working files, ~2GB).
+# The app only ships the re-encoded renders in public/showcase/.
+public/projects/

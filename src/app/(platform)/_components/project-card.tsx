@@ -6,9 +6,17 @@ import type { Project } from "@/data";
 
 /**
  * A project tile for portfolio grids. Shows the cover, a hover lift, and a
- * "3D" badge when the project ships an explorable model.
+ * "3D" badge when the project ships an explorable model. Pass `designerName`
+ * on cross-designer listings (e.g. the global /projects index) to credit the
+ * studio; omit it on a designer's own portfolio where that context is implied.
  */
-export function ProjectCard({ project }: { project: Project }) {
+export function ProjectCard({
+  project,
+  designerName,
+}: {
+  project: Project;
+  designerName?: string;
+}) {
   return (
     <Link
       href={`/designers/${project.designerSlug}/${project.slug}`}
@@ -39,10 +47,15 @@ export function ProjectCard({ project }: { project: Project }) {
         <h3 className="font-heading text-2xl leading-tight tracking-tight">
           {project.title}
         </h3>
+        {designerName && (
+          <p className="text-xs text-muted-foreground">
+            by <span className="text-foreground/80">{designerName}</span>
+          </p>
+        )}
         <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
           {project.summary}
         </p>
-        <span className="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
+        <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-sm font-medium text-foreground">
           View case study
           <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
         </span>
