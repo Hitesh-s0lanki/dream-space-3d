@@ -4,33 +4,43 @@ import { ArrowRight } from "lucide-react";
 import { getServices } from "@/data";
 import { Reveal } from "@/components/reveal";
 import { Card, Carousel } from "@/components/ui/apple-cards-carousel";
+import { CometCard } from "@/components/ui/comet-card";
+import { GridPattern } from "@/components/ui/background-grid";
 
 /**
  * What we do — the service pillars as an Apple-style cards carousel
  * (ui.aceternity.com/components/apple-cards-carousel). Cards are built from the
  * services data layer and link straight to their own page, so this section and
  * /services can never drift apart.
+ *
+ * Each card additionally rides a spring-damped tilt with a moving specular sheen
+ * (`CometCard`), so the rail reads as a row of laminated boards catching the light
+ * as you move along it rather than a set of flat panels.
  */
 export function ServicesSection() {
   const services = getServices();
 
   const cards = services.map((service, index) => (
-    <Card
-      key={service.slug}
-      index={index}
-      layout
-      card={{
-        category: `${String(index + 1).padStart(2, "0")} · ${service.shortName}`,
-        title: service.name,
-        src: service.cover,
-        href: `/services/${service.slug}`,
-      }}
-    />
+    <CometCard key={service.slug} rotateDepth={11} translateDepth={9}>
+      <Card
+        index={index}
+        layout
+        card={{
+          category: `${String(index + 1).padStart(2, "0")} · ${service.shortName}`,
+          title: service.name,
+          src: service.cover,
+          href: `/services/${service.slug}`,
+        }}
+      />
+    </CometCard>
   ));
 
   return (
     <section id="services" className="relative overflow-hidden bg-background">
-      <div className="mx-auto max-w-6xl px-6 pt-24 sm:px-10 lg:pt-24">
+      {/* Drafting grid behind the rail — the plane the cards sit above */}
+      <GridPattern className="opacity-60" size={72} />
+
+      <div className="relative mx-auto max-w-6xl px-6 pt-24 sm:px-10 lg:pt-24">
         <Reveal className="flex flex-wrap items-end justify-between gap-6">
           <div className="space-y-4">
             <p className="text-xs uppercase tracking-[0.3em] text-accent">
@@ -51,7 +61,7 @@ export function ServicesSection() {
         </Reveal>
       </div>
 
-      <Reveal className="mb-8 mt-10 lg:mt-8">
+      <Reveal className="relative mb-8 mt-10 lg:mt-8">
         <Carousel items={cards} />
       </Reveal>
     </section>

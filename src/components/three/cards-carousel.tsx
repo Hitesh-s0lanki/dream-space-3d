@@ -1,17 +1,8 @@
 "use client";
 
 import * as THREE from "three";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import {
-  Component,
-  Suspense,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
-import {
-  Canvas,
   useFrame,
   useThree,
   extend,
@@ -19,6 +10,8 @@ import {
 } from "@react-three/fiber";
 import { Image } from "@react-three/drei";
 import { easing } from "maath";
+
+import { WebGLCanvas } from "./webgl-canvas";
 
 /**
  * Rotating carousel of curved image cards, adapted from the pmndrs
@@ -246,18 +239,6 @@ function Carousel() {
   ));
 }
 
-function hasWebGL(): boolean {
-  try {
-    const canvas = document.createElement("canvas");
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext("webgl2") || canvas.getContext("webgl"))
-    );
-  } catch {
-    return false;
-  }
-}
-
 function Fallback() {
   return (
     <div className="flex h-full w-full items-center justify-center p-6 text-center text-sm text-muted-foreground">
@@ -267,58 +248,23 @@ function Fallback() {
   );
 }
 
-class WebGLErrorBoundary extends Component<
-  { children: ReactNode },
-  { failed: boolean }
-> {
-  state = { failed: false };
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-  render() {
-    return this.state.failed ? <Fallback /> : this.props.children;
-  }
-}
-
 export function CardsCarousel() {
-  const [supported, setSupported] = useState<boolean | null>(null);
-  useEffect(() => setSupported(hasWebGL()), []);
-
-  // Pause the auto-rotating render loop while the gallery is off-screen.
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(true);
-  useEffect(() => {
-    const node = wrapRef.current;
-    if (!node) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin: "100px" },
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, [supported]);
-
-  if (supported === null) return null;
-  if (!supported) return <Fallback />;
-
   return (
-    <WebGLErrorBoundary>
-      <div ref={wrapRef} className="h-full w-full">
-        <Canvas
-          flat
-          frameloop={active ? "always" : "never"}
-          camera={{ position: [0, 0, 100], fov: 15 }}
-          className="h-full w-full"
-        >
-          <fog attach="fog" args={["#ffffff", 8.5, 12]} />
-          <ThemeBackground />
-          <Suspense fallback={null}>
-            <Rig rotation={[0, 0, 0.15]}>
-              <Carousel />
-            </Rig>
-          </Suspense>
-        </Canvas>
-      </div>
-    </WebGLErrorBoundary>
+    <WebGLCanvas
+      flat
+      // The gallery is content — someone scrolled here to look at the work — so
+      // it outranks the ambient dust and glass in the context queue.
+      interactive
+      camera={{ position: [0, 0, 100], fov: 15 }}
+      fallback={<Fallback />}
+    >
+      <fog attach="fog" args={["#ffffff", 8.5, 12]} />
+      <ThemeBackground />
+      <Suspense fallback={null}>
+        <Rig rotation={[0, 0, 0.15]}>
+          <Carousel />
+        </Rig>
+      </Suspense>
+    </WebGLCanvas>
   );
 }

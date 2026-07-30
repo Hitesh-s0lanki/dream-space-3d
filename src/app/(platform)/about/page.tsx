@@ -5,6 +5,18 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/reveal";
 import { ApproachSteps } from "@/components/approach-steps";
+import { AmbientDust, AmbientGlass } from "@/components/three/lazy";
+import { CardBody, CardContainer, CardItem } from "@/components/ui/card-3d";
+import { CometCard } from "@/components/ui/comet-card";
+import {
+  DraggableCardBody,
+  DraggableCardContainer,
+} from "@/components/ui/draggable-card";
+import { GlareCard } from "@/components/ui/glare-card";
+import { GridPattern } from "@/components/ui/background-grid";
+import { Lens } from "@/components/ui/lens";
+import { SpotlightNew } from "@/components/ui/spotlight";
+import { WobbleCard } from "@/components/ui/wobble-card";
 import { FounderCard, type Founder } from "./_components/founder-card";
 
 export const metadata: Metadata = {
@@ -37,6 +49,15 @@ const FOUNDERS: Founder[] = [
     bio: "Hitesh builds the part you walk through. Every Rumiva project ships as an explorable model, and the pipeline behind it — geometry, lighting, true-scale materials, and the real-time viewer in your browser — is his.\n\nHe came to interiors sideways, from software, and kept the standards: if a client can't open their home on a phone in a few seconds and move through it without instructions, it isn't finished. Visualization stays in-house for exactly that reason.",
     link: { href: "/projects", label: "Explore the 3D projects" },
   },
+];
+
+/**
+ * The prints stacked under the lead image on "Our story". Ordered back-to-front,
+ * each dealt at a slight angle so the pile reads as hand-laid.
+ */
+const STORY_PRINTS = [
+  { src: "/gallery/kitchen-4.jpg", alt: "A Rumiva kitchen", rotate: -7 },
+  { src: "/gallery/bedroom-01-2.jpg", alt: "A Rumiva bedroom", rotate: 5 },
 ];
 
 const BELIEFS = [
@@ -117,6 +138,8 @@ export default function AboutPage() {
       <section className="relative overflow-hidden bg-background pb-16 pt-32 sm:pb-20 sm:pt-40">
         <div className="pointer-events-none absolute -right-32 -top-24 size-96 rounded-full bg-terracotta/8 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-32 -left-24 size-80 rounded-full bg-sage/10 blur-3xl" />
+        <GridPattern className="opacity-70" size={72} />
+        <SpotlightNew />
 
         <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
           <Reveal className="space-y-5">
@@ -135,18 +158,32 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Stats band */}
-      <section className="border-y border-border/60 bg-secondary/40">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 divide-y divide-border/60 px-6 sm:grid-cols-3 sm:divide-x sm:divide-y-0 sm:px-10">
+      {/* Stats band — a tilting plate per figure, the numeral furthest forward */}
+      <section className="relative overflow-hidden border-y border-border/60 bg-secondary/40">
+        <GridPattern className="opacity-60" size={48} />
+        <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-2 px-6 py-6 sm:grid-cols-3 sm:px-10">
           {STATS.map((stat) => (
-            <div key={stat.label} className="px-4 py-8 text-center sm:py-10">
-              <div className="font-heading text-4xl tracking-tight sm:text-5xl">
-                {stat.value}
-              </div>
-              <div className="mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground">
-                {stat.label}
-              </div>
-            </div>
+            <CardContainer
+              key={stat.label}
+              containerClassName="w-full"
+              className="w-full"
+              intensity={8}
+            >
+              <CardBody className="h-full rounded-2xl px-4 py-6 text-center">
+                <CardItem
+                  translateZ={55}
+                  className="mx-auto font-heading text-4xl tracking-tight sm:text-5xl"
+                >
+                  {stat.value}
+                </CardItem>
+                <CardItem
+                  translateZ={22}
+                  className="mx-auto mt-2 text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground"
+                >
+                  {stat.label}
+                </CardItem>
+              </CardBody>
+            </CardContainer>
           ))}
         </div>
       </section>
@@ -156,15 +193,59 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl px-6 py-24 sm:px-10 lg:py-32">
           <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-20">
             <Reveal>
-              <div className="relative aspect-4/5 overflow-hidden rounded-3xl">
-                <Image
-                  src="/gallery/bedroom-02-1.jpg"
-                  alt="A Rumiva bedroom interior"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  className="object-cover"
-                />
-              </div>
+              {/* A stack of prints on a table rather than one framed image. The
+                  top one tilts and magnifies for a proper look; the ones behind
+                  can be picked up and thrown aside. The story on the right is
+                  about handing people the room instead of asking them to imagine
+                  it — so this asks to be handled. */}
+              <DraggableCardContainer className="relative aspect-4/5 w-full">
+                {STORY_PRINTS.map((print, i) => (
+                  <DraggableCardBody
+                    key={print.src}
+                    rotate={print.rotate}
+                    className="absolute inset-0"
+                  >
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={print.src}
+                        alt={print.alt}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 45vw"
+                        className="object-cover"
+                        priority={i === STORY_PRINTS.length - 1}
+                      />
+                    </div>
+                  </DraggableCardBody>
+                ))}
+
+                {/* The lead print — tilt + magnifier, so the top of the stack is
+                    the one that rewards a close look. */}
+                <CometCard
+                  rotateDepth={9}
+                  translateDepth={7}
+                  className="absolute inset-0 z-20"
+                >
+                  <Lens
+                    lensSize={190}
+                    zoomFactor={1.8}
+                    className="h-full rounded-2xl"
+                  >
+                    <div className="relative h-full w-full">
+                      <Image
+                        src="/gallery/bedroom-02-1.jpg"
+                        alt="A Rumiva bedroom interior"
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 45vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  </Lens>
+                </CometCard>
+
+                <p className="pointer-events-none absolute -bottom-9 left-0 text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
+                  Drag the prints
+                </p>
+              </DraggableCardContainer>
             </Reveal>
 
             <Reveal delay={100} className="space-y-6 lg:pt-6">
@@ -243,19 +324,39 @@ export default function AboutPage() {
             </h2>
           </Reveal>
 
-          <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border/60 bg-border/60 sm:grid-cols-2">
+          {/* Four rules, four separate tilting plates — the rule itself pushed
+              forward of its explanation */}
+          <div className="mt-14 grid gap-3 sm:grid-cols-2">
             {BELIEFS.map((belief, i) => (
-              <div key={belief.title} className="bg-card p-8 sm:p-10">
-                <span className="font-mono text-xs tracking-[0.2em] text-accent">
-                  [{String(i + 1).padStart(2, "0")}]
-                </span>
-                <h3 className="mt-5 font-heading text-2xl leading-tight tracking-tight">
-                  {belief.title}
-                </h3>
-                <p className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground">
-                  {belief.copy}
-                </p>
-              </div>
+              <CardContainer
+                key={belief.title}
+                containerClassName="h-full w-full"
+                className="h-full w-full"
+                intensity={9}
+              >
+                <CardBody className="h-full rounded-3xl border border-border/60 bg-card p-8 sm:p-10">
+                  <CardItem
+                    translateZ={30}
+                    className="font-mono text-xs tracking-[0.2em] text-accent"
+                  >
+                    [{String(i + 1).padStart(2, "0")}]
+                  </CardItem>
+                  <CardItem
+                    as="h3"
+                    translateZ={60}
+                    className="mt-5 font-heading text-2xl leading-tight tracking-tight"
+                  >
+                    {belief.title}
+                  </CardItem>
+                  <CardItem
+                    as="p"
+                    translateZ={22}
+                    className="mt-3 text-pretty text-sm leading-relaxed text-muted-foreground"
+                  >
+                    {belief.copy}
+                  </CardItem>
+                </CardBody>
+              </CardContainer>
             ))}
           </div>
         </div>
@@ -264,9 +365,12 @@ export default function AboutPage() {
       {/* Design process — the interactive rail */}
       <section
         id="process"
-        className="scroll-mt-28 bg-charcoal py-24 text-ivory lg:py-32"
+        className="relative scroll-mt-28 overflow-hidden bg-charcoal py-24 text-ivory lg:py-32"
       >
-        <div className="mx-auto max-w-6xl px-6 sm:px-10">
+        <div className="pointer-events-none absolute inset-0 opacity-60">
+          <AmbientDust color="#f6efe4" count={420} spread={15} size={2} seed={88} />
+        </div>
+        <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
           <Reveal className="grid gap-5 lg:grid-cols-[minmax(0,16rem)_1fr] lg:gap-16">
             <p className="text-xs uppercase tracking-[0.3em] text-ivory/40">
               Design process
@@ -306,26 +410,30 @@ export default function AboutPage() {
             </div>
           </Reveal>
 
-          <ul className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-border/60 bg-border/60 lg:grid-cols-3">
+          {/* Rotating panes with a sweeping iridescent wash — the notes read as
+              laminated plates on a table. They aren't links yet, so the tilt is
+              the only affordance; nothing here promises navigation. */}
+          <ul className="mt-14 grid gap-4 lg:grid-cols-3">
             {JOURNAL.map((post) => (
-              <li
-                key={post.title}
-                className="flex flex-col gap-3 bg-card p-8 sm:p-9"
-              >
-                <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-accent">
-                  {post.category}
-                  <span className="text-muted-foreground/50">·</span>
-                  <span className="text-muted-foreground">{post.read}</span>
-                </div>
-                <h3 className="text-balance font-heading text-2xl leading-tight tracking-tight">
-                  {post.title}
-                </h3>
-                <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
-                  {post.excerpt}
-                </p>
-                <span className="mt-auto pt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground/70">
-                  Coming soon
-                </span>
+              <li key={post.title} className="h-full">
+                <GlareCard containerClassName="h-full" className="h-full">
+                  <div className="flex h-full flex-col gap-3 p-8 sm:p-9">
+                    <div className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-accent">
+                      {post.category}
+                      <span className="text-muted-foreground/50">·</span>
+                      <span className="text-muted-foreground">{post.read}</span>
+                    </div>
+                    <h3 className="text-balance font-heading text-2xl leading-tight tracking-tight">
+                      {post.title}
+                    </h3>
+                    <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
+                      {post.excerpt}
+                    </p>
+                    <span className="mt-auto pt-4 text-xs uppercase tracking-[0.18em] text-muted-foreground/70">
+                      Coming soon
+                    </span>
+                  </div>
+                </GlareCard>
               </li>
             ))}
           </ul>
@@ -333,35 +441,45 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="bg-background">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:py-24">
-          <div className="space-y-5">
-            <h2 className="text-balance font-heading text-4xl leading-[1.08] tracking-tight sm:text-5xl">
-              Let&apos;s design something you can walk through.
-            </h2>
-            <p className="max-w-md text-pretty text-muted-foreground">
-              Tell us about your space. We&apos;ll come back within a day with a
-              read on what it could become.
-            </p>
+      <section className="bg-background px-6 py-20 sm:px-10 lg:py-24">
+        <WobbleCard
+          containerClassName="mx-auto max-w-6xl rounded-3xl bg-walnut"
+          className="px-8 py-14 sm:px-12 sm:py-16"
+        >
+          <div className="pointer-events-none absolute inset-0 opacity-70">
+            <AmbientGlass tint="#e8dfd2" />
           </div>
+          <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-walnut via-walnut/70 to-transparent" />
 
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-3 lg:justify-self-end">
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background transition-transform duration-300 hover:-translate-y-0.5"
-            >
-              Book a consultation
-              <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-            <Link
-              href="/projects"
-              className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground transition-colors hover:text-accent"
-            >
-              See the work
-              <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </Link>
+          <div className="relative grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-center">
+            <div className="space-y-5 text-ivory">
+              <h2 className="text-balance font-heading text-4xl leading-[1.08] tracking-tight sm:text-5xl">
+                Let&apos;s design something you can walk through.
+              </h2>
+              <p className="max-w-md text-pretty text-ivory/75">
+                Tell us about your space. We&apos;ll come back within a day with a
+                read on what it could become.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-3 lg:justify-self-end">
+              <Link
+                href="/contact"
+                className="group inline-flex items-center gap-2 rounded-full bg-ivory px-7 py-3.5 text-sm font-medium text-charcoal transition-transform duration-300 hover:-translate-y-0.5"
+              >
+                Book a consultation
+                <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
+              <Link
+                href="/projects"
+                className="group inline-flex items-center gap-1.5 text-sm font-medium text-ivory transition-colors hover:text-accent"
+              >
+                See the work
+                <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </div>
           </div>
-        </div>
+        </WobbleCard>
       </section>
     </>
   );

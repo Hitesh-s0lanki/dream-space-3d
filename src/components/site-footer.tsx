@@ -2,6 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Mail, MapPin, Phone } from "lucide-react";
 
+import { AmbientDust } from "@/components/three/lazy";
+import { FloatingDock } from "@/components/ui/floating-dock";
+import { GridPattern } from "@/components/ui/background-grid";
+import { TextHoverEffect } from "@/components/ui/text-hover-effect";
+
 /* This build of lucide-react ships no brand marks, so social glyphs are drawn
    inline. Each fills currentColor and inherits the link's sizing. */
 function InstagramIcon(props: React.ComponentProps<"svg">) {
@@ -32,6 +37,11 @@ function YoutubeIcon(props: React.ComponentProps<"svg">) {
  * Site footer — a dark charcoal ground that closes the page, with link
  * columns, contact details, a newsletter capture, and social row, following
  * the structure of Bonito's footer but pared to the studio's needs.
+ *
+ * Depth comes from three stacked layers rather than from flat panels: a WebGL
+ * dust cloud drifting through the ground (three.js `DustField`), a drafting grid
+ * above it, and the content itself lifted on a perspective stage. Socials sit in
+ * a magnifying dock so the last interactive thing on the page still has weight.
  */
 const COLUMNS: { heading: string; links: { label: string; href: string }[] }[] =
   [
@@ -77,13 +87,23 @@ const SOCIALS: {
 export function SiteFooter() {
   return (
     <footer className="relative overflow-hidden bg-charcoal text-ivory">
-      <div className="mx-auto max-w-6xl px-6 sm:px-10">
+      {/* Ambient depth: motes in the dark, then a faint drafting grid over them */}
+      <div className="pointer-events-none absolute inset-0 opacity-70">
+        <AmbientDust color="#f6efe4" count={520} spread={16} size={1.9} seed={7} />
+      </div>
+      <GridPattern className="opacity-[0.07]" size={64} fade={false} />
+      <div className="pointer-events-none absolute -top-40 left-1/3 size-96 rounded-full bg-terracotta/10 blur-3xl" />
+
+      <div
+        className="relative mx-auto max-w-6xl px-6 sm:px-10"
+        style={{ perspective: "1200px" }}
+      >
         {/* Top: brand + newsletter */}
         <div className="grid gap-12 border-b border-white/10 py-16 lg:grid-cols-[1.2fr_1fr] lg:gap-20">
           <div className="space-y-6">
             <Link
               href="/"
-              className="flex items-center gap-2.5"
+              className="group flex items-center gap-2.5"
               aria-label="Rumiva — home"
             >
               <Image
@@ -91,7 +111,7 @@ export function SiteFooter() {
                 alt="Rumiva"
                 width={44}
                 height={48}
-                className="h-8 w-auto"
+                className="h-8 w-auto transition-transform duration-500 group-hover:-translate-y-0.5 group-hover:rotate-[-6deg]"
               />
               <span className="flex flex-col leading-none">
                 <span className="text-base font-medium tracking-[0.32em]">
@@ -113,7 +133,7 @@ export function SiteFooter() {
             <p className="text-sm text-ivory/60">
               Occasional guides on materials, light, and living well. No noise.
             </p>
-            <form className="flex max-w-md items-center gap-2 rounded-full border border-white/15 bg-white/5 p-1.5 pl-5">
+            <form className="group/form flex max-w-md items-center gap-2 rounded-full border border-white/15 bg-white/5 p-1.5 pl-5 transition-all duration-500 focus-within:-translate-y-0.5 focus-within:border-white/30 focus-within:shadow-[0_12px_30px_rgb(0_0_0/0.35)]">
               <Mail className="size-4 shrink-0 text-ivory/50" />
               <input
                 type="email"
@@ -133,10 +153,14 @@ export function SiteFooter() {
           </div>
         </div>
 
-        {/* Middle: link columns + contact */}
+        {/* Middle: link columns + contact. Each column tilts toward the reader on
+            hover — a small parallax that makes the row feel like separate cards. */}
         <div className="grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4">
           {COLUMNS.map((col) => (
-            <div key={col.heading} className="space-y-4">
+            <div
+              key={col.heading}
+              className="space-y-4 transition-transform duration-500 ease-out hover:[transform:translateZ(28px)_rotateY(-3deg)]"
+            >
               <h3 className="text-xs uppercase tracking-[0.2em] text-ivory/40">
                 {col.heading}
               </h3>
@@ -145,8 +169,9 @@ export function SiteFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm text-ivory/70 transition-colors hover:text-ivory"
+                      className="group inline-flex items-center gap-1.5 text-sm text-ivory/70 transition-all duration-300 hover:translate-x-1 hover:text-ivory"
                     >
+                      <span className="h-px w-0 bg-terracotta transition-all duration-300 group-hover:w-3" />
                       {link.label}
                     </Link>
                   </li>
@@ -155,7 +180,7 @@ export function SiteFooter() {
             </div>
           ))}
 
-          <div className="space-y-4">
+          <div className="space-y-4 transition-transform duration-500 ease-out hover:[transform:translateZ(28px)_rotateY(-3deg)]">
             <h3 className="text-xs uppercase tracking-[0.2em] text-ivory/40">
               Get in touch
             </h3>
@@ -190,24 +215,30 @@ export function SiteFooter() {
           </div>
         </div>
 
+        {/* The wordmark, engraved rather than typed: an outline that draws itself
+            in, with a gradient fill revealed only under the pointer. */}
+        <div className="border-t border-white/10 pt-10">
+          <TextHoverEffect
+            text="RUMIVA"
+            className="h-28 w-full text-ivory/70 sm:h-36"
+          />
+        </div>
+
         {/* Bottom bar */}
         <div className="flex flex-col items-center justify-between gap-6 border-t border-white/10 py-8 sm:flex-row">
           <p className="text-xs text-ivory/50">
             © {2026} Rumiva Design Studio. All rights reserved.
           </p>
 
-          <div className="flex items-center gap-4">
-            {SOCIALS.map((s) => (
-              <a
-                key={s.label}
-                href={s.href}
-                aria-label={s.label}
-                className="inline-flex size-9 items-center justify-center rounded-full border border-white/15 text-ivory/70 transition-colors hover:border-white/40 hover:text-ivory"
-              >
-                <s.icon className="size-4" />
-              </a>
-            ))}
-          </div>
+          <FloatingDock
+            className="border-white/15 bg-white/5"
+            itemClassName="bg-white/10 text-ivory shadow-none"
+            items={SOCIALS.map((s) => ({
+              title: s.label,
+              href: s.href,
+              icon: <s.icon className="size-4" />,
+            }))}
+          />
 
           <div className="flex items-center gap-5 text-xs text-ivory/50">
             <Link href="/privacy" className="transition-colors hover:text-ivory">

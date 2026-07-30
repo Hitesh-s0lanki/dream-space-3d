@@ -45,8 +45,14 @@ export function ProjectsGallery({
 
   return (
     <div>
-      {/* Filter bar */}
-      <div className="sticky top-24 z-10 -mx-6 mb-12 flex flex-wrap items-center gap-x-6 gap-y-4 border-b border-border/60 bg-background/80 px-6 py-4 backdrop-blur-md sm:top-28 sm:mx-0 sm:rounded-full sm:border sm:px-6">
+      {/* Filter bar — a raised control surface: lit top edge, chips that press in
+          when selected and lift off the bar when hovered */}
+      <div className="sticky top-24 z-10 -mx-6 mb-12 flex flex-wrap items-center gap-x-6 gap-y-4 border-b border-border/60 bg-background/80 px-6 py-4 shadow-lg shadow-charcoal/5 backdrop-blur-md sm:top-28 sm:mx-0 sm:rounded-full sm:border sm:px-6">
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-x-10 top-0 hidden h-px bg-linear-to-r from-transparent via-ivory to-transparent sm:block"
+        />
+
         <div className="flex flex-wrap items-center gap-2">
           {spaceTypes.map((type) => (
             <button
@@ -54,10 +60,10 @@ export function ProjectsGallery({
               type="button"
               onClick={() => setSpace(type)}
               className={cn(
-                "rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                "rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300",
                 space === type
-                  ? "bg-foreground text-background"
-                  : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground",
+                  ? "bg-foreground text-background shadow-[inset_0_1px_2px_rgb(255_255_255/0.25)]"
+                  : "text-muted-foreground hover:-translate-y-0.5 hover:bg-foreground/5 hover:text-foreground hover:shadow-sm",
               )}
             >
               {type}
@@ -71,10 +77,10 @@ export function ProjectsGallery({
             onClick={() => setThreeDOnly((v) => !v)}
             aria-pressed={threeDOnly}
             className={cn(
-              "ml-auto inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition-colors",
+              "ml-auto inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition-all duration-300",
               threeDOnly
-                ? "border-accent bg-accent/10 text-accent"
-                : "border-border/60 text-muted-foreground hover:border-foreground/30 hover:text-foreground",
+                ? "border-accent bg-accent/10 text-accent shadow-[0_0_18px_-4px_var(--terracotta)]"
+                : "border-border/60 text-muted-foreground hover:-translate-y-0.5 hover:border-foreground/30 hover:text-foreground",
             )}
           >
             <Box className="size-3.5" />

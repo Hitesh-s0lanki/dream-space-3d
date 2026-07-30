@@ -5,6 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
+import { CometCard } from "@/components/ui/comet-card";
+
 export type Founder = {
   name: string;
   /** Job title — what they trained as. */
@@ -31,30 +33,37 @@ function initials(name: string) {
  * Founder profile — portrait over a short bio and the disciplines they own.
  * The portrait degrades to a monogram plate if the image is missing, so the
  * page reads correctly before the real photography lands.
+ *
+ * The portrait sits in a spring-damped 3D tilt with a moving specular sheen, so
+ * it behaves like a physical print on the page. Only the portrait tilts — the bio
+ * beside it stays flat, because rotating a paragraph makes it harder to read for
+ * no gain.
  */
 export function FounderCard({ founder }: { founder: Founder }) {
   const [failed, setFailed] = React.useState(false);
 
   return (
     <article className="group flex flex-col">
-      <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-secondary">
-        {failed ? (
-          <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary via-muted to-stone/40">
-            <span className="font-heading text-7xl tracking-tight text-walnut/30">
-              {initials(founder.name)}
-            </span>
-          </div>
-        ) : (
-          <Image
-            src={founder.image}
-            alt={founder.name}
-            fill
-            sizes="(max-width: 1024px) 100vw, 50vw"
-            onError={() => setFailed(true)}
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-          />
-        )}
-      </div>
+      <CometCard rotateDepth={10} translateDepth={8}>
+        <div className="relative aspect-4/5 overflow-hidden rounded-3xl bg-secondary">
+          {failed ? (
+            <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-secondary via-muted to-stone/40">
+              <span className="font-heading text-7xl tracking-tight text-walnut/30">
+                {initials(founder.name)}
+              </span>
+            </div>
+          ) : (
+            <Image
+              src={founder.image}
+              alt={founder.name}
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              onError={() => setFailed(true)}
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+            />
+          )}
+        </div>
+      </CometCard>
 
       <div className="mt-7 space-y-4">
         <div className="space-y-1.5">

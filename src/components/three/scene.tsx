@@ -1,7 +1,7 @@
 "use client";
 
 import * as THREE from "three";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Sky, Bvh, useGLTF, useEnvironment } from "@react-three/drei";
 import {
   EffectComposer,
@@ -15,15 +15,10 @@ import {
   Vignette,
   ToneMapping,
 } from "@react-three/postprocessing";
-import {
-  Component,
-  Suspense,
-  useCallback,
-  useState,
-  type ReactNode,
-  useEffect,
-  useRef,
-} from "react";
+import { Suspense, useCallback, useState } from "react";
+
+import { useGpuTier, type GpuTier } from "@/lib/webgl-capability";
+import { WebGLCanvas } from "./webgl-canvas";
 
 const MODEL_URL = "/kitchen-transformed.glb";
 // Self-hosted so the scene doesn't block on an external CDN (raw.githack.com)
@@ -99,7 +94,7 @@ useEnvironment.preload({ files: ENV_URL });
  * Post-processing stack + pointer-parallax camera. Lives in its own component
  * so it can read the canvas size (needed for the outline blur width).
  */
-function Effects() {
+function Effects({ tier }: { tier: GpuTier }) {
   const { size } = useThree();
   useFrame((state, delta) => {
     const { camera, pointer } = state;
@@ -109,30 +104,30 @@ function Effects() {
     camera.position.z = damp(camera.position.z, 8 + Math.atan(pointer.x * 2), 3, delta);
     camera.lookAt(camera.position.x * 0.9, 0, -4);
   });
+
+  // Ambient occlusion and tilt-shift are the two passes that scale with pixel
+  // count rather than geometry, and they're also the two the composition can
+  // live without — the hero still reads as a lit room with colour grading and
+  // the hover outline alone. Integrated graphics get that version.
+  const fullFat = tier === "high";
+
   return (
     <EffectComposer stencilBuffer autoClear={false} multisampling={0}>
-      <N8AO aoSamples={6} denoiseSamples={2} aoRadius={0.6} distanceFalloff={1} intensity={1.8} />
-      <Outline visibleEdgeColor={0xffffff} hiddenEdgeColor={0xffffff} blur width={Math.min(size.width, 1024)} edgeStrength={10} />
-      <TiltShift2 samples={4} blur={0.06} />
+      {fullFat ? (
+        <N8AO aoSamples={6} denoiseSamples={2} aoRadius={0.6} distanceFalloff={1} intensity={1.8} />
+      ) : (
+        <></>
+      )}
+      {/* The outline pass allocates render targets at `width`; 1024 was double
+          what an edge this soft can show. */}
+      <Outline visibleEdgeColor={0xffffff} hiddenEdgeColor={0xffffff} blur width={Math.min(size.width, 512)} edgeStrength={10} />
+      {fullFat ? <TiltShift2 samples={4} blur={0.06} /> : <></>}
       <ToneMapping />
       <BrightnessContrast brightness={-0.03} contrast={0.08} />
       <HueSaturation saturation={0.06} />
       <Vignette eskil={false} offset={0.35} darkness={0.55} />
     </EffectComposer>
   );
-}
-
-/** Detects whether the browser can actually create a WebGL context. */
-function hasWebGL(): boolean {
-  try {
-    const canvas = document.createElement("canvas");
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext("webgl2") || canvas.getContext("webgl"))
-    );
-  } catch {
-    return false;
-  }
 }
 
 function Fallback() {
@@ -144,70 +139,36 @@ function Fallback() {
   );
 }
 
-/** Catches runtime failures from the WebGL renderer so the page never breaks. */
-class WebGLErrorBoundary extends Component<
-  { children: ReactNode },
-  { failed: boolean }
-> {
-  state = { failed: false };
-
-  static getDerivedStateFromError() {
-    return { failed: true };
-  }
-
-  render() {
-    return this.state.failed ? <Fallback /> : this.props.children;
-  }
-}
-
 export function Scene() {
-  // Probe for WebGL on the client only (avoids SSR/hydration mismatch).
-  const [supported, setSupported] = useState<boolean | null>(null);
-  useEffect(() => setSupported(hasWebGL()), []);
+  const tier = useGpuTier();
 
-  // Pause the render loop while the hero is off-screen — the full
-  // post-processing stack is expensive and there's no reason to run it at
-  // 60fps while the reader is further down the page.
-  const wrapRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(true);
-  useEffect(() => {
-    const node = wrapRef.current;
-    if (!node) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
-      { rootMargin: "100px" },
-    );
-    io.observe(node);
-    return () => io.disconnect();
-  }, [supported]);
-
-  if (supported === null) return null;
-  if (!supported) return <Fallback />;
-
+  // `WebGLCanvas` owns the capability probe, the context lease, the error
+  // boundary and the off-screen parking that used to be hand-rolled here — three
+  // near-identical copies of that logic across this folder each leaked a probe
+  // context, which on Windows is a real slice of the per-page budget.
   return (
-    <WebGLErrorBoundary>
-      <div ref={wrapRef} className="h-full w-full">
-      <Canvas
-        flat
-        dpr={[1, 1.5]}
-        frameloop={active ? "always" : "never"}
-        gl={{ antialias: false, powerPreference: "high-performance" }}
-        camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}
-        className="h-full w-full"
-      >
-        <ambientLight intensity={0.85 * Math.PI} />
-        <directionalLight position={[4, 8, 3]} intensity={0.45} />
-        <Sky sunPosition={[80, 40, 100]} turbidity={10} rayleigh={1.5} />
-        <Bvh firstHitOnly>
-          <Selection>
-            <Effects />
-            <Suspense fallback={null}>
-              <Kitchen rotation={[0, Math.PI / 2, 0]} position={[0, -1, -0.85]} />
-            </Suspense>
-          </Selection>
-        </Bvh>
-      </Canvas>
-      </div>
-    </WebGLErrorBoundary>
+    <WebGLCanvas
+      flat
+      // The hero is the page, not decoration: it outranks the ambient
+      // backgrounds when contexts are scarce and still renders for readers who
+      // asked for reduced motion.
+      interactive
+      decorative={false}
+      gl={{ antialias: false, powerPreference: "high-performance" }}
+      camera={{ position: [0, 1, 6], fov: 25, near: 1, far: 20 }}
+      fallback={<Fallback />}
+    >
+      <ambientLight intensity={0.85 * Math.PI} />
+      <directionalLight position={[4, 8, 3]} intensity={0.45} />
+      <Sky sunPosition={[80, 40, 100]} turbidity={10} rayleigh={1.5} />
+      <Bvh firstHitOnly>
+        <Selection>
+          <Effects tier={tier ?? "low"} />
+          <Suspense fallback={null}>
+            <Kitchen rotation={[0, Math.PI / 2, 0]} position={[0, -1, -0.85]} />
+          </Suspense>
+        </Selection>
+      </Bvh>
+    </WebGLCanvas>
   );
 }

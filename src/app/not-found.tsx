@@ -2,24 +2,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
+import { AmbientDust } from "@/components/three/lazy";
+import { GridPattern } from "@/components/ui/background-grid";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+
 /**
  * Global 404. In the App Router this catches both unmatched URLs and any
  * `notFound()` thrown by a page (e.g. an unknown designer or project slug). It
  * renders inside the root layout, so it carries its own minimal chrome rather
  * than a route-group header.
+ *
+ * "This room doesn't exist — yet", so the page is staged as an unbuilt one: a
+ * drafting grid, dust hanging in empty air (three.js), and the ghost numeral
+ * pushed back behind the content on a perspective stage.
  */
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-background px-6 text-center">
-      {/* Oversized ghost numeral behind the content */}
+    <div
+      className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden bg-background px-6 text-center"
+      style={{ perspective: "1200px" }}
+    >
+      <GridPattern className="opacity-70" size={64} />
+      <div className="pointer-events-none absolute inset-0 opacity-50">
+        <AmbientDust color="#8a7a63" count={340} spread={14} size={2} seed={404} />
+      </div>
+
+      {/* Oversized ghost numeral, set back in the Z axis behind the content */}
       <span
         aria-hidden
         className="pointer-events-none absolute inset-0 flex select-none items-center justify-center font-heading text-[40vw] leading-none text-foreground/[0.04] sm:text-[28rem]"
+        style={{ transform: "translateZ(-140px)" }}
       >
         404
       </span>
 
-      <div className="relative flex flex-col items-center gap-6">
+      <div
+        className="relative flex flex-col items-center gap-6 transform-3d"
+        style={{ transform: "translateZ(40px)" }}
+      >
         <Link
           href="/"
           className="flex items-center gap-2.5"
@@ -59,13 +79,17 @@ export default function NotFound() {
             </span>
           </Link>
 
-          <Link
+          {/* A highlight walks this pill's rim and lights the whole edge on
+              hover — enough presence to read as the second way out without
+              competing with the primary. */}
+          <HoverBorderGradient
             href="/designers"
-            className="group inline-flex items-center gap-1.5 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground"
+            containerClassName="rounded-full"
+            className="group flex items-center gap-1.5 bg-background px-6 py-3 text-sm font-medium text-foreground/90"
           >
             Browse designers
             <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
+          </HoverBorderGradient>
         </div>
       </div>
     </div>

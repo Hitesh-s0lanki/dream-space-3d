@@ -5,10 +5,17 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Reveal } from "@/components/reveal";
+import { BackgroundBeams } from "@/components/ui/background-beams";
+import { SpotlightCard } from "@/components/ui/spotlight";
 
 /**
  * FAQ — the questions every prospective client asks before booking, in a
  * collapsible list beside a sticky heading, mirroring Bonito's FAQ block.
+ *
+ * The list sits on a single lit card rather than as loose rules on the page, with
+ * light travelling along a fan of paths behind the sticky heading — sightlines
+ * threading a plan drawing. Accordions are deliberately *not* tilted: rows that
+ * grow and shrink in height read badly on a rotated plane.
  */
 const FAQS: { q: string; a: string }[] = [
   {
@@ -39,9 +46,10 @@ const FAQS: { q: string; a: string }[] = [
 
 export function FaqSection() {
   return (
-    <section id="faq" className="relative bg-secondary/50">
+    <section id="faq" className="relative overflow-hidden bg-secondary/50">
       <div className="mx-auto grid max-w-6xl gap-12 px-6 py-24 sm:px-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16 lg:py-32">
-        <Reveal className="lg:sticky lg:top-28 lg:h-fit">
+        <Reveal className="relative lg:sticky lg:top-28 lg:h-fit">
+          <BackgroundBeams className="-z-10 opacity-60" />
           <p className="text-xs uppercase tracking-[0.3em] text-accent">
             Good to know
           </p>
@@ -55,18 +63,24 @@ export function FaqSection() {
         </Reveal>
 
         <Reveal>
-          <Accordion type="single" collapsible className="w-full">
-            {FAQS.map((f) => (
-              <AccordionItem key={f.q} value={f.q} className="border-border/70">
-                <AccordionTrigger className="py-5 text-base font-medium hover:no-underline sm:text-lg">
-                  {f.q}
-                </AccordionTrigger>
-                <AccordionContent className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-                  {f.a}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          <SpotlightCard className="px-6 py-2 shadow-lg shadow-charcoal/5 sm:px-8">
+            <Accordion type="single" collapsible className="relative w-full">
+              {FAQS.map((f) => (
+                <AccordionItem
+                  key={f.q}
+                  value={f.q}
+                  className="border-border/70 last:border-b-0"
+                >
+                  <AccordionTrigger className="py-5 text-base font-medium hover:no-underline sm:text-lg">
+                    {f.q}
+                  </AccordionTrigger>
+                  <AccordionContent className="max-w-xl text-sm leading-relaxed text-muted-foreground">
+                    {f.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </SpotlightCard>
         </Reveal>
       </div>
     </section>

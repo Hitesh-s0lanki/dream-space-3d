@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Mail, MapPin, Phone, Clock, ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/reveal";
+import { AmbientGlass } from "@/components/three/lazy";
+import { BackgroundBeams } from "@/components/ui/background-beams";
+import { GridPattern } from "@/components/ui/background-grid";
+import { SpotlightCard, SpotlightNew } from "@/components/ui/spotlight";
+import { WobbleCard } from "@/components/ui/wobble-card";
 import { ContactForm } from "./_components/contact-form";
 
 export const metadata: Metadata = {
@@ -44,6 +49,9 @@ export default function ContactPage() {
       <section className="relative overflow-hidden bg-background pt-32 pb-16 sm:pt-40 sm:pb-20">
         <div className="pointer-events-none absolute -right-32 -top-32 size-96 rounded-full bg-terracotta/8 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-24 -left-24 size-80 rounded-full bg-sage/10 blur-3xl" />
+        <GridPattern className="opacity-70" size={72} />
+        <BackgroundBeams className="opacity-50" />
+        <SpotlightNew />
 
         <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
           <Reveal className="space-y-4">
@@ -70,18 +78,22 @@ export default function ContactPage() {
           <div className="grid gap-16 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
             {/* Left: Form */}
             <Reveal>
-              <div className="rounded-3xl border border-border/60 bg-card p-6 sm:p-10">
-                <div className="mb-8 space-y-1.5">
-                  <h2 className="text-2xl font-medium tracking-tight">
-                    Send us a message
-                  </h2>
-                  <p className="text-sm text-muted-foreground">
-                    Fields marked with <span className="text-accent">*</span>{" "}
-                    are required.
-                  </p>
+              {/* Lit surface, not a plain panel — the form is the most important
+                  thing on the page, so it gets the light that follows the pointer */}
+              <SpotlightCard className="p-6 shadow-xl shadow-charcoal/5 sm:p-10">
+                <div className="relative">
+                  <div className="mb-8 space-y-1.5">
+                    <h2 className="text-2xl font-medium tracking-tight">
+                      Send us a message
+                    </h2>
+                    <p className="text-sm text-muted-foreground">
+                      Fields marked with <span className="text-accent">*</span>{" "}
+                      are required.
+                    </p>
+                  </div>
+                  <ContactForm />
                 </div>
-                <ContactForm />
-              </div>
+              </SpotlightCard>
             </Reveal>
 
             {/* Right: Info */}
@@ -100,9 +112,10 @@ export default function ContactPage() {
               <div className="space-y-6">
                 {CONTACT_INFO.map((item, i) => (
                   <Reveal key={item.label} delay={150 + i * 80}>
-                    <div className="flex items-start gap-4">
-                      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted">
-                        <item.icon className="size-4.5 text-muted-foreground" />
+                    <div className="group flex items-start gap-4">
+                      {/* Icon plate lifts and casts as you approach the row */}
+                      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted ring-1 ring-inset ring-white/25 transition-all duration-500 group-hover:-translate-y-0.5 group-hover:shadow-lg group-hover:shadow-charcoal/10">
+                        <item.icon className="size-4.5 text-muted-foreground transition-colors duration-500 group-hover:text-accent" />
                       </div>
                       <div className="space-y-1">
                         <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
@@ -135,10 +148,16 @@ export default function ContactPage() {
                 ))}
               </div>
 
-              {/* Decorative accent card */}
+              {/* Accent card — a volume with glass solids drifting inside it */}
               <Reveal delay={500}>
-                <div className="relative overflow-hidden rounded-3xl bg-walnut p-8 text-ivory">
-                  <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-terracotta/25 via-transparent to-black/30" />
+                <WobbleCard
+                  containerClassName="rounded-3xl bg-walnut"
+                  className="p-8 text-ivory"
+                >
+                  <div className="pointer-events-none absolute inset-0 opacity-70">
+                    <AmbientGlass tint="#e8dfd2" />
+                  </div>
+                  <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-terracotta/25 via-walnut/50 to-black/40" />
                   <div className="pointer-events-none absolute -right-12 -top-12 size-48 rounded-full bg-terracotta/20 blur-3xl" />
 
                   <div className="relative space-y-3">
@@ -156,7 +175,7 @@ export default function ContactPage() {
                       <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </a>
                   </div>
-                </div>
+                </WobbleCard>
               </Reveal>
             </div>
           </div>

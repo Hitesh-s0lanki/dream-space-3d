@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
+// Lenis ships the `height: auto` / scroll-lock / `data-lenis-prevent` rules its
+// runtime assumes are present. Smooth scrolling misbehaves without it.
+import "lenis/dist/lenis.css";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 
 // Body & UI — a crisp, neutral humanist sans.

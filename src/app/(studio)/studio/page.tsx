@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
 import { getCurrentAccount } from "@/lib/auth/dal";
+import { SpotlightCard } from "@/components/ui/spotlight";
 
 export const metadata: Metadata = {
   title: "Your studio · Rumiva",
@@ -24,11 +25,13 @@ export default async function StudioPage() {
         </h1>
       </header>
 
-      <section className="rounded-2xl border border-border/60 bg-background p-6">
-        <h2 className="text-sm font-medium tracking-wide text-muted-foreground uppercase">
+      {/* Lit panels, so the workspace still has a surface — but no tilt: these
+          are records to read, not objects to play with. */}
+      <SpotlightCard className="rounded-2xl bg-background p-6">
+        <h2 className="relative text-sm font-medium tracking-wide text-muted-foreground uppercase">
           Account
         </h2>
-        <dl className="mt-4 grid gap-4 sm:grid-cols-2">
+        <dl className="relative mt-4 grid gap-4 sm:grid-cols-2">
           <div>
             <dt className="text-xs text-muted-foreground">Studio</dt>
             <dd className="text-sm text-foreground">{account.studioName}</dd>
@@ -48,16 +51,18 @@ export default async function StudioPage() {
             </dd>
           </div>
         </dl>
-      </section>
+      </SpotlightCard>
 
-      <section className="rounded-2xl border border-dashed border-border/60 bg-background/50 p-6">
-        <h2 className="font-heading text-lg text-foreground">Next steps</h2>
-        <p className="mt-1.5 max-w-prose text-sm text-muted-foreground">
+      <SpotlightCard className="rounded-2xl border-dashed bg-background/50 p-6">
+        <h2 className="relative font-heading text-lg text-foreground">
+          Next steps
+        </h2>
+        <p className="relative mt-1.5 max-w-prose text-sm text-muted-foreground">
           Your portfolio, projects, and 3D case studies will live here. This is
           the onboarding home — the place to publish your studio to the public
           designer directory once portfolio editing lands.
         </p>
-      </section>
+      </SpotlightCard>
     </div>
   );
 }
